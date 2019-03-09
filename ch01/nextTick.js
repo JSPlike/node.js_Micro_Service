@@ -9,6 +9,6 @@ try {
     a.a = 0;
   });
 
-} catch (e) {
+} catch(e) {
   console.log("exception!!");
 }
