@@ -1,16 +1,20 @@
-const http = request('http');
+const http = require('http');
 const url = require('url');
 const querystring = require('querystring');
 
+const members = require('./monolithic_members.js');
+const goods = require('./monolithic_goods.js');
+const purchases = require('./monolithic_purchases.js');
 
-var server = http.creatServer((req, res) => {
+var server = http.createServer((req, res) => {
 	var method = req.method;
 	var uri = url.parse(req.url, true);
 	var pathname = uri.pathname;
 	
 	// POST와 PUT이면 데이터를 읽음
-	if(method === "POST" || method ==="PUT") {
-		var body = "":
+	if(method === "POST" || method === "PUT") {
+		var body = "";
+
 		req.on('data', function(data){
 			body += data;
 		});
@@ -33,6 +37,24 @@ var server = http.creatServer((req, res) => {
 }).listen(8000);
 
 function onRequest(res, method, pathname, params) {
-	// 모든 요청에 "response!" 메시지를 보냄
-	res.end("response!")
+
+	switch(pathname) {
+		case "/members":
+			members.onRequest(res, method, pathname, params, response);
+			break;
+		case "/goods":
+			goods.onRequest(res, method, pathname, params, response);
+			break;
+		case "/purchases":
+			purchases.onRequest(res, method, pathname, params, response);
+			break;
+		default:
+			res.writeHead(404);
+			return res.end();
+	}
+}
+
+function response(res, packet) {
+	res.writeHead(200, {'content-type': 'application/json'});
+	res.end(JSON.stringfy(packet));
 }
