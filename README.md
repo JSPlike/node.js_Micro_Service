@@ -94,3 +94,4 @@ curl명령을 사용하면 다양한 사이트의 정보를 가져올수 있다.
   $curl -X GET -L https://www.google.com?search=박준영
 ```
 > 위의 명령어는 박준영이라는 검색을 한 구글의 화면 정보를 가져온다.
+> Go to the WIKI
