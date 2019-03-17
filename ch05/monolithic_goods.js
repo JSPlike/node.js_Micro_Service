@@ -8,7 +8,7 @@ const conn = {
 };
 // 독립적 URI 생성
 
-exports = onRequest = function(res, method, pathname, params, cb){
+exports.onRequest = function(res, method, pathname, params, cb){
 	switch (method) {
 		case "POST":
 			return register(method, pathname, params, (response) => {

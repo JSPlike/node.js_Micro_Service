@@ -1,68 +1,75 @@
 const http = require('http');
 
 var options = {
-	host: "127.0.0.1",
-	port: 7550,
-	headers: {
-		'Content-Type': 'application/json'
-	}
+    host: "127.0.0.1",
+    port: 8000,
+    headers: {
+        'Content-Type': 'application/json'
+    }
 };
 
+
 function request(cb, params) {
-	var req = http.request(options, (res) => {
-		var data = "";
-		res.on('data', (chunk) => {
-			data += chunk;
-		});
+    var req = http.request(options, (res) => {      
+        var data = "";
+        res.on('data', (chunk) => {                 
+            data += chunk;
+        });
 
-		res.on('end', () => {
-			console.log(options, data);
-			cb();
-		});
-	});
+        res.on('end', () => {                       
+            console.log(options, data);
+            cb();
+        });
+    });
 
-	if(params) {
-		req.write(JSON.stringify(params));
-	}
+    if (params) {
+        req.write(JSON.stringify(params));
+    }
 
-	req.end();
+    req.end();
 }
 
 
-// 상품 관리 API TEST
+/**
+ * 상품 관리 API 테스트
+ */
 
-function goods(callback) {
-		goods_post(() => {
-				goods_get(() => {
-						goods_delete(callback);
-				});
-		});
-		function goods_post(cb) {
-				options.method = "POST";
-				options.path = "/goods";
-				request(cb, {
-						name: "test Goods",
-						category: "tests",
-						price: 1000,
-						description: "test"
-				});
-		}
+function goods(callback) {    
+    goods_post(() => {
+        goods_get(() => {
+            goods_delete(callback);
+        });
+    });
+    
+    
 
-		function goods_get(cb) {
-				options.method = "GET";
-				options.path = "/goods";
-				request(cb);
-		}
+    function goods_post(cb) {        
+        options.method = "POST";
+        options.path = "/goods";
+        request(cb, {
+            name: "test Goods",
+            category: "tests",
+            price: 1000,
+            description: "test"
+        });
+    }
 
-		function goods_delete(cb) {
-				options.method = "DELETE";
-				options.path = "/goods?id=1";
-				request(cb);
-		}
+    function goods_get(cb) {
+        options.method = "GET";
+        options.path = "/goods";
+        request(cb);
+    }
+
+    function goods_delete(cb) {
+        options.method = "DELETE";
+        options.path = "/goods?id=1";
+        request(cb);
+    }
 }
 
-// 회원 관리 API 테스트
-
+/**
+ * 회원 관리 API 테스트
+ */
 function members(callback) {
 
     members_delete(() => {
@@ -96,8 +103,9 @@ function members(callback) {
     }
 }
 
-// 구매 관리 API 테스트
-
+/**
+ *  구매 관리 API 테스트
+ */
 function purchases(callback) {
 
     purchases_post(() => {
