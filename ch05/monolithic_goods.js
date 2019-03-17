@@ -68,7 +68,7 @@ function register(method, pathname, params, cb){
 function inquiry(method, pathname, params, cb) {
 	var response = {
 		key: params.key,
-		errorcode = 1,
+		errorcode: 0,
 		errormessage: "success"
 	};
 
@@ -80,6 +80,7 @@ function inquiry(method, pathname, params, cb) {
 			response.errormessage = error ? error : "no data";
 	} else {
 		response.results = results;
+	}
 		cb(response);
 	});
 	connection.end();
