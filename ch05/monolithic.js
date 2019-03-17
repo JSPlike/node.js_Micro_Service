@@ -25,19 +25,17 @@ var server = http.createServer((req, res) => {
 			if(req.headers['content-type'] == "application/json") {
 				params = JSON.parse(body);
 			} else {
-				params = querystring.parse(body);
+					params = querystring.parse(body);
 			}
-
 			onRequest(res, method, pathname, params);
 		});
 	} else {
 		// GET과 DELETE이면 query 정보를 읽음
 		onRequest(res, method, pathname, uri.query);
 	}
-}).listen(8000);
+}).listen(7550);
 
 function onRequest(res, method, pathname, params) {
-
 	switch(pathname) {
 		case "/members":
 			members.onRequest(res, method, pathname, params, response);
@@ -55,6 +53,7 @@ function onRequest(res, method, pathname, params) {
 }
 
 function response(res, packet) {
-	res.writeHead(200, {'content-type': 'application/json'});
-	res.end(JSON.stringfy(packet));
+	res.writeHead(200, {'Content-Type': 'application/json'});
+	res.end(JSON.stringify(packet));
 }
+console.log('hello monolithic START');
